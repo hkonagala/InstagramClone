@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });*/
 
-     ParseUser.logInInBackground("harika", "test", new LogInCallback() {
+   /*  ParseUser.logInInBackground("harika", "test", new LogInCallback() {
          @Override
          public void done(ParseUser user, ParseException e) {
              if( user !=null){
@@ -49,7 +49,14 @@ public class MainActivity extends AppCompatActivity {
                  Log.i("login", "failed" + e.toString());
              }
          }
-     });
+     });*/
+
+
+   if(ParseUser.getCurrentUser() != null){
+       Log.i("current user", "logged in " + ParseUser.getCurrentUser().getUsername());
+   }else {
+       Log.i("current user", "logged in failed");
+   }
 
         ParseAnalytics.trackAppOpenedInBackground(getIntent());
     }
