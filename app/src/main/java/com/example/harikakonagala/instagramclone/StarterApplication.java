@@ -32,7 +32,8 @@ public class StarterApplication extends Application {
         );
 
 
-        ParseUser.enableAutomaticUser();
+        //disabling automaticUser gives us the control over sign up and login in parse server
+        //ParseUser.enableAutomaticUser();
 
         ParseACL defaultACL = new ParseACL();
         defaultACL.setPublicReadAccess(true);
