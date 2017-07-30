@@ -93,22 +93,31 @@ public class MainActivity extends AppCompatActivity {
 
         //adding where clauses
 
-        query.whereEqualTo("username", "abhinav");
-        query.setLimit(1);
+        /*query.whereEqualTo("username", "abhinav");
+        query.setLimit(1);*/
 
 
+        query.whereGreaterThan("score", 200);
 
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> objects, ParseException e) {
-                if(e == null){
+              /*  if(e == null){
                     Log.i("findInBackground", "retrieved " + objects.size() + " objects");
                 }
                 if(objects.size() > 0 ){
                     for(ParseObject object : objects){
                         Log.i("result", object.getString("username") + " " + object.getInt("score"));
                     }
-                }
+                }*/
+
+              if(e == null && objects != null){
+                  for(ParseObject object: objects){
+
+                      object.put("score", object.getInt("score")+ 50);
+                      object.saveInBackground();
+                  }
+              }
             }
         });
 
