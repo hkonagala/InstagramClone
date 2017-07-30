@@ -1,12 +1,17 @@
 package com.example.harikakonagala.instagramclone;
 
+import android.content.Intent;
 import android.graphics.Paint;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.parse.FindCallback;
@@ -24,13 +29,16 @@ import com.parse.SignUpCallback;
 import java.util.List;
 
 import static android.R.attr.button;
+import static android.R.attr.start;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener{
+public class MainActivity extends AppCompatActivity implements View.OnClickListener, View.OnKeyListener{
 
     EditText username , pwd;
     Button signup, login;
     Boolean isUserAnonymous = true;
     String usernametxt, pwdtext;
+    RelativeLayout relativeLayout;
+    ImageView background;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +52,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         signup.setPaintFlags(signup.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         login = (Button) findViewById(R.id.login);
         login.setPaintFlags(login.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+        relativeLayout = (RelativeLayout) findViewById(R.id.relative_layout);
+        background = (ImageView) findViewById(R.id.icon_imageView);
+
+        pwd.setOnKeyListener(this);
+        relativeLayout.setOnClickListener(this);
+        background.setOnClickListener(this);
 
         ParseAnalytics.trackAppOpenedInBackground(getIntent());
     }
@@ -58,6 +72,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void done(ParseUser user, ParseException e) {
 
                 if(user !=null){
+                    Intent intent = new Intent(MainActivity.this, HomeActivity.class);
+                    startActivity(intent);
                     Log.i("login", "sucessfully logged in");
                     Toast.makeText(getApplicationContext(),
                             "Successfully Logged in",
@@ -137,8 +153,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     login.setText("Or, Login");
                 }
                 break;
+            case R.id.relative_layout:
+                removeKeyboard();
+                break;
+            case R.id.icon_imageView:
+                removeKeyboard();
+                break;
         }
     }
 
+    private void removeKeyboard() {
+        InputMethodManager in = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+        in.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+    }
 
+
+    @Override
+    public boolean onKey(View v, int keyCode, KeyEvent event) {
+
+        if(keyCode == event.KEYCODE_ENTER && event.getAction() == event.ACTION_DOWN){
+            userSignup();
+        }
+
+        return false;
+    }
 }
