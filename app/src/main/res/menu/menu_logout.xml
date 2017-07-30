@@ -7,4 +7,9 @@
         android:title="logout"
         app:showAsAction="never"
         />
+    <item
+        android:id="@+id/share_picture"
+        android:title="share photo"
+        app:showAsAction="never"
+        />
 </menu>
