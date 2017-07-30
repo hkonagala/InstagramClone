@@ -4,12 +4,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseAnalytics;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.SaveCallback;
+
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -53,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });*/
 
-        ParseObject parseObject = new ParseObject("Tweet");
+/*        ParseObject parseObject = new ParseObject("Tweet");
         parseObject.put("username", "harika");
         parseObject.put("tweet", "hey there!");
 
@@ -79,6 +82,32 @@ public class MainActivity extends AppCompatActivity {
 
                     Log.i("object value", object.getString("username"));
                     Log.i("object value", object.getString("tweet"));
+                }
+            }
+        });*/
+
+
+//we can manually add into parse server too
+
+        ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("Score");
+
+        //adding where clauses
+
+        query.whereEqualTo("username", "abhinav");
+        query.setLimit(1);
+
+
+
+        query.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> objects, ParseException e) {
+                if(e == null){
+                    Log.i("findInBackground", "retrieved " + objects.size() + " objects");
+                }
+                if(objects.size() > 0 ){
+                    for(ParseObject object : objects){
+                        Log.i("result", object.getString("username") + " " + object.getInt("score"));
+                    }
                 }
             }
         });
