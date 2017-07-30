@@ -58,6 +58,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         pwd.setOnKeyListener(this);
         relativeLayout.setOnClickListener(this);
         background.setOnClickListener(this);
+        //user is already logged in
+        if(ParseUser.getCurrentUser() !=null){
+            Intent intent = new Intent(MainActivity.this, HomeActivity.class);
+            startActivity(intent);
+        }
 
         ParseAnalytics.trackAppOpenedInBackground(getIntent());
     }
