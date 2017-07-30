@@ -39,20 +39,6 @@ public class StarterApplication extends Application {
         defaultACL.setPublicWriteAccess(true);
         ParseACL.setDefaultACL(defaultACL, true);
 
-        ParseObject object = new ParseObject("ExampleObject");
-        object.put("myNumber", "test123");
-        object.put("myString", "harika");
-
-        object.saveInBackground(new SaveCallback() {
-            @Override
-            public void done(ParseException ex) {
-                if (ex == null) {
-                    Log.i("Parse Result", "Successful!");
-                } else {
-                    Log.i("Parse Result", "Failed" + ex.toString());
-                }
-            }
-        });
 
     }
 }
