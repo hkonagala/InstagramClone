@@ -53,6 +53,36 @@ public class MainActivity extends AppCompatActivity {
             }
         });*/
 
+        ParseObject parseObject = new ParseObject("Tweet");
+        parseObject.put("username", "harika");
+        parseObject.put("tweet", "hey there!");
+
+        parseObject.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if(e == null){
+                    Log.i("parse object saved", "successfully saved");
+                }else {
+                    Log.i("parse object saved", "Failed to save, error: " + e.toString());
+                }
+            }
+        });
+
+        ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("Tweet");
+        query.getInBackground("wwe8fvliT9", new GetCallback<ParseObject>() {
+            @Override
+            public void done(ParseObject object, ParseException e) {
+                if(e == null && object != null){
+
+                    object.put("tweet", "hey! what up!");
+                    object.saveInBackground();
+
+                    Log.i("object value", object.getString("username"));
+                    Log.i("object value", object.getString("tweet"));
+                }
+            }
+        });
+
         ParseAnalytics.trackAppOpenedInBackground(getIntent());
     }
 }
